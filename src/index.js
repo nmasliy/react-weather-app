@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import 'reset-css';
+import store from './redux/store';
+import { Provider } from 'react-redux';
+import AppContainer from './AppContainer';
 
 ReactDOM.render(
-    <App />,
-  document.getElementById('root')
-);
+	<Provider store={store}>
+		<AppContainer />
+	</Provider>,
+	document.getElementById("root"));
 
 reportWebVitals();
