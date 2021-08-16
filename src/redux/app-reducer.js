@@ -110,7 +110,7 @@ export const setCurrentCity = (city) => {
 
 export const getWeatherData = (city) => {
     return (dispatch) => {
-        API.getWeather(city)
+        return API.getWeather(city)
         .then(data => {
             const weatherData = {
                 city: data.name,
