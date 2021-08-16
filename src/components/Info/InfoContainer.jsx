@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { getWeatherData } from '../../redux/app-reducer';
 import Info from './Info';
 
 const InfoContainer = (props) => {
@@ -13,7 +12,7 @@ const InfoContainer = (props) => {
     };
 
     return (
-        <Info dateData={dateData} getWeatherData={props.getWeatherData} weather={props.weather}/>
+        <Info dateData={dateData} weather={props.weather}/>
     );
 };
 
@@ -23,4 +22,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { getWeatherData })(InfoContainer);
+export default connect(mapStateToProps, {})(InfoContainer);
