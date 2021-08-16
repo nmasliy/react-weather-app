@@ -1,6 +1,9 @@
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { createGlobalStyle } from 'styled-components';
 import App from './App';
+import Preloader from './components/UI/Preloader';
+import { initializeApp } from './redux/app-reducer';
 
 const GlobalStyle = createGlobalStyle`
 	html {
@@ -23,6 +26,10 @@ const GlobalStyle = createGlobalStyle`
 		transition: color .4s ease-in-out, background-color .5s ease-in-out;
 	}
 
+	img {
+		display: flex;
+	}
+	
 	a,
 	button,
 	input,
@@ -33,17 +40,26 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const AppContainer = (props) => {
-    return (
-		<>
-			<App theme={props.theme}/>
-			<GlobalStyle theme={props.theme}/>
-		</>
-	)
+	useEffect(() => {
+		props.initializeApp('Kostanay');
+	},[])
+
+	if (!props.initialized) {return <Preloader /> }
+	else {
+		return (
+			<>
+				<App theme={props.theme}/>
+				<GlobalStyle theme={props.theme}/>
+			</>
+		)
+	}
 };
 
 const mapStateToProps = (state) => {
 	return {
 		theme: state.theme.styles,
+		currentCity: state.currentCity,
+		initialized: state.initialized,
 	}
 }
-export default connect(mapStateToProps, null)(AppContainer);
+export default connect(mapStateToProps, { initializeApp })(AppContainer);

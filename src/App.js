@@ -1,7 +1,7 @@
 import Header from './components/Header/Header';
-import Info from './components/Info/Info';
+import InfoContainer from './components/Info/InfoContainer';
 import Cities from './components/Cities/Cities';
-import styled, { createGlobalStyle, withTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import sunny from './assets/images/sunny-bg.jpg';
 import cloudy from './assets/images/cloudy-bg.jpg';
@@ -24,7 +24,7 @@ const App = (props) => {
     return (
 		<AppWrapper theme={props.theme} className="App" backgroundImageUrl={sunny}>
 			<Header />
-			<Info />
+			<InfoContainer />
 			<Cities />
 		</AppWrapper>
     );
