@@ -1,9 +1,8 @@
 import styled from 'styled-components';
-import sunny from '../../assets/images/sunny.svg';
 
 const InfoWrapper = styled.div`
-    margin-bottom: 75px;
     text-align: center;
+    margin-bottom: 75px;
     padding-top: 100px;
 
     .Location {
@@ -14,9 +13,6 @@ const InfoWrapper = styled.div`
     }
     .Img {
         margin-right: 25px;
-        img {
-            width: 180px;
-        }
     }
     .Date {
         font-weight: 500;
@@ -35,6 +31,8 @@ const InfoWrapper = styled.div`
     }
     .Status {
         font-weight: 500;
+        font-size: 20px;
+        text-transform: capitalize;
     }
     .Today {
         display: flex;
@@ -51,7 +49,7 @@ const Info = (props) => {
             <div className="Location">{props.weather.city}</div>
             <div className="Today">
                 <div className="Img">
-                    <img src={sunny} alt="1" />
+                    <img src={`http://openweathermap.org/img/wn/${props.weather.imageCode}@2x.png`} alt={props.weather.status} />
                 </div>
                 <div className="Date">
                     <p>
