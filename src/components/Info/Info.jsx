@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import sunny from "../../assets/images/sunny.svg";
+import styled from 'styled-components';
+import sunny from '../../assets/images/sunny.svg';
 
 const InfoWrapper = styled.div`
     margin-bottom: 75px;
@@ -47,17 +47,12 @@ const InfoWrapper = styled.div`
 
 const Info = (props) => {
     let date = new Date();
-
     const dateData = {
-        day: date.getDay(),
-        weekday: new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(
-            date.getDay()
-        ),
-        month: new Intl.DateTimeFormat("en-US", { month: "long" }).format(
-            date.getMonth()
-        ),
-        hours: ("0" + date.getHours()).slice(-2),
-        minutes: ("0" + date.getMinutes()).slice(-2),
+        day: date.getDate(),
+        weekday: new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(date.getDate()),
+        month: date.toLocaleString('default', { month: 'long' }),
+        hours: ('0' + date.getHours()).slice(-2),
+        minutes: ('0' + date.getMinutes()).slice(-2),
     };
 
     return (
