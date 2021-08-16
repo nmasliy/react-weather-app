@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { setTheme } from '../../../redux/appReducer';
+import { setTheme } from '../../../redux/app-reducer';
 import ThemeToggler from './ThemeToggler';
 
 const ThemeTogglerContainer = (props) => {

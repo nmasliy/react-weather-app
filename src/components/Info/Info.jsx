@@ -46,33 +46,24 @@ const InfoWrapper = styled.div`
 `;
 
 const Info = (props) => {
-    let date = new Date();
-    const dateData = {
-        day: date.getDate(),
-        weekday: new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(date.getDate()),
-        month: date.toLocaleString('default', { month: 'long' }),
-        hours: ('0' + date.getHours()).slice(-2),
-        minutes: ('0' + date.getMinutes()).slice(-2),
-    };
-
     return (
         <InfoWrapper className="Info">
-            <div className="Location">Lisakovsk</div>
+            <div className="Location">{props.weather.city}</div>
             <div className="Today">
                 <div className="Img">
                     <img src={sunny} alt="1" />
                 </div>
                 <div className="Date">
                     <p>
-                        {`${dateData.weekday}, ${dateData.day} ${dateData.month}`}
+                        {`${props.dateData.weekday}, ${props.dateData.day} ${props.dateData.month}`}
                     </p>
                     <p>
-                        <time>{`${dateData.hours}:${dateData.minutes}`}</time>
+                        <time>{`${props.dateData.hours}:${props.dateData.minutes}`}</time>
                     </p>
                 </div>
             </div>
-            <div className="Degree">25°C</div>
-            <div className="Status">Sunny</div>
+            <div className="Degree">{Math.round(props.weather.temperature)}°C</div>
+            <div className="Status">{props.weather.status}</div>
         </InfoWrapper>
     );
 };

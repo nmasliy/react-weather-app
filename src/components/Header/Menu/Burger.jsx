@@ -25,7 +25,7 @@ const BurgerWrapper = styled.button`
 
 const Burger = (props) => {
     return (
-        <BurgerWrapper className="Burger">
+        <BurgerWrapper theme={props.theme} className="Burger">
             <span></span>
             <span></span>
             <span></span>
