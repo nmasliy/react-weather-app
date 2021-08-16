@@ -11,7 +11,7 @@ const initialState = {
             name: "old-dark",
             styles: {
                 primary: "#FFFFFF",
-                burger: "#89AFE7",
+                burger: "#FFFFFF",
                 toggler: {
                     container: "#89AFE7",
                     circle: "#663C6C",
@@ -39,7 +39,7 @@ const initialState = {
             name: "dark",
             styles: {
                 primary: "#FFFFFF",
-                burger: "#232323",
+                burger: "#FFFFFF",
                 toggler: {
                     container: "#232323",
                     circle: "#FFFFFF",
