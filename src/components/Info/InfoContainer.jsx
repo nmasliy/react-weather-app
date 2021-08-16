@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import Info from './Info';
 
 const InfoContainer = (props) => {
+    
     let date = new Date();
     const dateData = {
         day: date.getDate(),

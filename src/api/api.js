@@ -10,7 +10,6 @@ const API = {
     getWeather(city) {
         return instance.get(`weather?q=${city}&appid=${API_KEY}&units=metric`)
         .then(response => {
-            console.log(response);
             return response.data;
         })
     }
