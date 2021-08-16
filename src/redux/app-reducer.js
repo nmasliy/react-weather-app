@@ -17,7 +17,7 @@ const initialState = {
                     circle: "#663C6C",
                 },
                 background: "#250933",
-                appBackground: "linear-gradient(180deg, rgba(1, 9, 85, 0.7) 0%, rgba(148, 8, 151, 0.7) 100%)",
+                appBackground: "linear-gradient(180deg, rgba(1, 9, 85, 0.9) 0%, rgba(148, 8, 151, 0.9) 100%)",
             }
         },
         light: {
