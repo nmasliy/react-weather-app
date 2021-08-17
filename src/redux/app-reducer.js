@@ -4,49 +4,59 @@ const SET_THEME = "SET-THEME";
 const SET_WEATHER_DATA = "SET-WEATHER-DATA";
 const SET_CURRENT_CITY = "SET-CURRENT-CITY";
 const INITIALIZED_SUCCESS = "INITIALIZED-SUCCESS";
+const ADD_CITY = "ADD-CITY";
 
 const initialState = {
     themes: {
-        oldDark: {
-            name: "old-dark",
-            styles: {
-                primary: "#FFFFFF",
-                burger: "#FFFFFF",
-                toggler: {
-                    container: "#89AFE7",
-                    circle: "#663C6C",
-                },
-                background: "#250933",
-                appBackground:
-                    "linear-gradient(180deg, rgba(1, 9, 85, 0.9) 0%, rgba(148, 8, 151, 0.9) 100%)",
-            },
-        },
         light: {
             name: "light",
             styles: {
                 primary: "#363434",
+                background: "#FFFFFF",
+                appBackground: "linear-gradient(180deg, rgba(155, 245, 240, 0.8) 0%, rgba(141, 240, 169, 0.8) 100%)",
                 burger: "#333232",
+                shadow: "4px 4px 8px 0px rgba(34, 60, 80, 0.2)",
                 toggler: {
                     container: "#284c54",
                     circle: "#FFFFFF",
                 },
-                background: "#FFFFFF",
-                appBackground:
-                    "linear-gradient(180deg, rgba(155, 245, 240, 0.8) 0%, rgba(141, 240, 169, 0.8) 100%)",
+                input: {
+                    color: "#363434",
+                    background: "#FFFFFF",
+                },
+                button: {
+                    color: "#FFFFFF",
+                    background: "#33cfb2;",
+                },
+                cities: {
+                    background: "rgba(27, 26, 26, 0.15)",
+                }
+                
             },
         },
         dark: {
             name: "dark",
             styles: {
                 primary: "#FFFFFF",
+                shadow: "4px 4px 8px 0px #320f52",
+                background: "#232323",
                 burger: "#FFFFFF",
+                appBackground: "linear-gradient(180deg, rgba(16, 16, 16, 0.9) 0%, rgba(14, 11, 16, 0.9) 100%)",
                 toggler: {
                     container: "#232323",
                     circle: "#FFFFFF",
                 },
-                background: "#232323",
-                appBackground:
-                    "linear-gradient(180deg, rgba(16, 16, 16, 0.9) 0%, rgba(14, 11, 16, 0.9) 100%)",
+                cities: {
+                    background: "rgba(27, 26, 26, 0.95)",
+                },
+                input: {
+                    color: "#363434",
+                    background: "#FFFFFF",
+                },
+                button: {
+                    color: "#FFFFFF",
+                    background: "#4e1390",
+                },
             },
         },
     },
@@ -55,13 +65,24 @@ const initialState = {
         styles: {
             primary: "#FFFFFF",
             burger: "#FFFFFF",
+            shadow: "4px 4px 8px 0px #320f52",
+            background: "#232323",
+            appBackground: "linear-gradient(180deg, rgba(16, 16, 16, 0.9) 0%, rgba(14, 11, 16, 0.9) 100%)",
             toggler: {
                 container: "#232323",
                 circle: "#FFFFFF",
             },
-            background: "#232323",
-            appBackground:
-                "linear-gradient(180deg, rgba(16, 16, 16, 0.9) 0%, rgba(14, 11, 16, 0.9) 100%)",
+            cities: {
+                background: "rgba(27, 26, 26, 0.95)",
+            },
+            input: {
+                color: "#363434",
+                background: "#FFFFFF",
+            },
+            button: {
+                color: "#FFFFFF",
+                background: "#4e1390",
+            },
         },
     },
     currentCity: "",
@@ -101,9 +122,25 @@ const appReducer = (state = initialState, action) => {
                 currentCity: action.currentCity,
             };
         }
+        case ADD_CITY: {
+            return {
+                ...state,
+                cities: [...state.cities, action.city],
+            };
+        }
         default:
             return state;
     }
+};
+
+export const addCity = (city) => {
+    return {
+        type: ADD_CITY,
+        city: {
+            name: city,
+            id: 1,
+        },
+    };
 };
 
 export const setTheme = (theme) => {
@@ -145,8 +182,8 @@ export const pickCity = (city) => {
     return (dispatch) => {
         dispatch(setCurrentCity(city));
         dispatch(getWeatherData(city));
-    }
-}
+    };
+};
 
 const initializingSuccess = () => ({ type: INITIALIZED_SUCCESS });
 
@@ -155,6 +192,7 @@ export const initializeApp = (city) => {
         const promises = [
             dispatch(setCurrentCity(city)),
             dispatch(getWeatherData(city)),
+            dispatch(addCity(city)),
         ];
         Promise.all(promises).then(() => dispatch(initializingSuccess()));
     };

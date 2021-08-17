@@ -1,5 +1,8 @@
+import { useState } from "react";
 import styled from "styled-components";
-import CitiesItem from './CitiesItem/CitiesItem';
+import CitiesItem from "./CitiesItem/CitiesItem";
+import Button from "../UI/Button";
+import Input from "../UI/Input";
 
 const CitiesWrapper = styled.div`
     .Title {
@@ -11,21 +14,56 @@ const CitiesWrapper = styled.div`
     }
     .List {
         padding: 20px;
-        padding-top: 10px;
-        border-radius: 15px;
-        background: rgba(27, 26, 26, 0.15);
+        border-radius: 10px;
+        background: ${props => props.theme.cities.background || ' rgba(27, 26, 26, 0.15)'};
+    }
+
+    .AddCityForm {
+        margin-bottom: 30px;
+    }
+
+    input {
+        width: 66.666%;
+    }
+
+    button {
+        width: 33.333%;
     }
 `;
 
 const Cities = (props) => {
+    const [newCity, setNewCity] = useState('');
+
+    const onChangeHandler = (e) => {
+        setNewCity(e.target.value);
+    };
+
+    const onSubmitHandler = (e) => {
+        e.preventDefault();
+        props.addCity(newCity);
+        props.pickCity(newCity);
+        setNewCity('');
+    }
+
+    const cities = props.cities.map((item) => <CitiesItem key={item.id} pickCity={props.pickCity}>{item.name}</CitiesItem>);
+
     return (
-        <CitiesWrapper className="Cities">
+        <CitiesWrapper className="Cities" theme={props.theme}>
             <div className="Title">Your cities</div>
+            <form className="AddCityForm" action="#" onSubmit={onSubmitHandler}>
+                <Input
+                    type="text"
+                    value={newCity}
+                    onChange={onChangeHandler}
+                    itemBackground={props.theme.input.background}
+                    itemColor={props.theme.input.color}
+                />
+                <Button itemBackground={props.theme.button.background} itemColor={props.theme.button.color} shadow={props.theme.shadow}>
+                    Добавить
+                </Button>
+            </form>
             <ul className="List">
-                <CitiesItem pickCity={props.pickCity}>Qostanai</CitiesItem>
-                <CitiesItem pickCity={props.pickCity}>Lisakovsk</CitiesItem>
-                <CitiesItem pickCity={props.pickCity}>Moscow</CitiesItem>
-                <CitiesItem pickCity={props.pickCity}>Los Angeles</CitiesItem>
+                {cities}
             </ul>
         </CitiesWrapper>
     );

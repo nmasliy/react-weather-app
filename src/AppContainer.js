@@ -29,6 +29,11 @@ const GlobalStyle = createGlobalStyle`
 	img {
 		display: flex;
 	}
+
+	a,
+	button {
+		cursor: pointer;
+	}
 	
 	a,
 	button,
