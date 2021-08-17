@@ -71,6 +71,7 @@ const initialState = {
         temperature: "...",
         imageCode: "",
     },
+    cities: [],
     initialized: false,
 };
 
@@ -139,6 +140,13 @@ export const getWeatherData = (city) => {
         });
     };
 };
+
+export const pickCity = (city) => {
+    return (dispatch) => {
+        dispatch(setCurrentCity(city));
+        dispatch(getWeatherData(city));
+    }
+}
 
 const initializingSuccess = () => ({ type: INITIALIZED_SUCCESS });
 

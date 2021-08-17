@@ -1,7 +1,7 @@
+import styled from 'styled-components';
 import Header from './components/Header/Header';
 import InfoContainer from './components/Info/InfoContainer';
-import Cities from './components/Cities/Cities';
-import styled from 'styled-components';
+import CitiesContainer from './components/Cities/CitiesContainer';
 
 const AppWrapper = styled.div`
 	background: ${props => props.theme.appBackground};
@@ -17,7 +17,7 @@ const App = (props) => {
 		<AppWrapper theme={props.theme} className="App">
 			<Header />
 			<InfoContainer />
-			<Cities />
+			<CitiesContainer />
 		</AppWrapper>
     );
 };
