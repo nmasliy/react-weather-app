@@ -1,10 +1,13 @@
 import API from "../api/api";
+import { v4 as getUnicalId } from 'uuid';
 
 const SET_THEME = "SET-THEME";
 const SET_WEATHER_DATA = "SET-WEATHER-DATA";
 const SET_CURRENT_CITY = "SET-CURRENT-CITY";
 const INITIALIZED_SUCCESS = "INITIALIZED-SUCCESS";
 const ADD_CITY = "ADD-CITY";
+const REMOVE_CITY = "REMOVE-CITY";
+const CHECK_IS_SINGLE_CITY = "CHECK-IS-SINGLE-CITY";
 
 const initialState = {
     themes: {
@@ -85,6 +88,7 @@ const initialState = {
             },
         },
     },
+    isSingleCity: true,
     currentCity: "",
     weather: {
         city: "...",
@@ -128,6 +132,20 @@ const appReducer = (state = initialState, action) => {
                 cities: [...state.cities, action.city],
             };
         }
+        case REMOVE_CITY: {
+            return {
+                ...state,
+                cities: state.cities.filter((city) => {
+                    return city.id !== action.id;
+                }),
+            };
+        }
+        case CHECK_IS_SINGLE_CITY: {
+            return {
+                ...state,
+                isSingleCity: state.cities.length === 1
+            }
+        }
         default:
             return state;
     }
@@ -138,10 +156,17 @@ export const addCity = (city) => {
         type: ADD_CITY,
         city: {
             name: city,
-            id: 1,
+            id: getUnicalId(),
         },
     };
 };
+
+export const removeCity = (id) => {
+    return {
+        type: REMOVE_CITY,
+        id: id,
+    }
+}
 
 export const setTheme = (theme) => {
     return {
@@ -163,6 +188,12 @@ export const setCurrentCity = (city) => {
         currentCity: city,
     };
 };
+
+export const checkIsSingleCity = () => {
+    return {
+        type: CHECK_IS_SINGLE_CITY
+    }
+}
 
 export const getWeatherData = (city) => {
     return (dispatch) => {

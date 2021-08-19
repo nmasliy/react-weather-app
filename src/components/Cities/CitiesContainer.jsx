@@ -1,18 +1,19 @@
 import { connect } from 'react-redux';
-import { pickCity, addCity } from '../../redux/app-reducer';
+import { pickCity, addCity, removeCity, checkIsSingleCity } from '../../redux/app-reducer';
 import Cities from './Cities';
 
 const CitiesContainer = (props) => {
     return (
-        <Cities pickCity={props.pickCity} addCity={props.addCity} cities={props.cities} theme={props.theme} />
+        <Cities {...props}/>
     );
 };
 
 const mapStateToProps = (state) => {
     return {
         theme: state.theme.styles,
-        cities: state.cities
+        cities: state.cities,
+        isSingleCity: state.isSingleCity,
     }
 }
 
-export default connect(mapStateToProps, { pickCity, addCity })(CitiesContainer);
+export default connect(mapStateToProps, { pickCity, addCity, removeCity, checkIsSingleCity })(CitiesContainer);

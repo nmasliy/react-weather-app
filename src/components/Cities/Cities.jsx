@@ -40,12 +40,14 @@ const Cities = (props) => {
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
+        // validation conditions ->
         props.addCity(newCity);
         props.pickCity(newCity);
         setNewCity('');
+        props.checkIsSingleCity();
     }
 
-    const cities = props.cities.map((item) => <CitiesItem key={item.id} pickCity={props.pickCity}>{item.name}</CitiesItem>);
+    const cities = props.cities.map((item) => <CitiesItem checkIsSingleCity={props.checkIsSingleCity} isSingleCity={props.isSingleCity} dataId={item.id} key={item.id} removeCity={props.removeCity} pickCity={props.pickCity}>{item.name}</CitiesItem>);
 
     return (
         <CitiesWrapper className="Cities" theme={props.theme}>

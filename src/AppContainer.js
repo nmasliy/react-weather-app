@@ -28,6 +28,7 @@ const GlobalStyle = createGlobalStyle`
 
 	img {
 		display: flex;
+		max-width: 100%;
 	}
 
 	a,
