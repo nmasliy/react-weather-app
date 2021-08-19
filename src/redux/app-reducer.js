@@ -161,6 +161,14 @@ export const addCity = (city) => {
     };
 };
 
+export const addAndPickCity = (city) => {
+    return (dispatch) => {
+        dispatch(addCity(city));
+        dispatch(pickCity(city));
+        dispatch(checkIsSingleCity());
+    }
+}
+
 export const removeCity = (id) => {
     return {
         type: REMOVE_CITY,

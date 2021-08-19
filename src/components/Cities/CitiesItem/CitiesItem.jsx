@@ -35,7 +35,6 @@ const CitiesItem = (props) => {
                     <img src={deleteIcon} alt="Delete city" />
                 </span>
             }
-            
         </CitiesItemWrapper>
     );
 };
