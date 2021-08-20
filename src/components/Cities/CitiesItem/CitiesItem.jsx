@@ -19,8 +19,10 @@ const CitiesItemWrapper = styled.li`
 `;
 
 const CitiesItem = (props) => {
+    const cityItem = props.children;
     const pickCity = () => {
-        if (!props.isSingleCity) props.pickCity(props.children)
+        if (!props.isSingleCity || props.currentCity !== cityItem)
+            props.pickCity(cityItem);
     }
     const removeCity = (e) => {
         e.stopPropagation();

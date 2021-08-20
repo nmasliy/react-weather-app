@@ -1,8 +1,6 @@
-import { useState } from "react";
 import styled from "styled-components";
+import CitiesForm from './CitiesForm/CitiesForm';
 import CitiesItem from "./CitiesItem/CitiesItem";
-import Button from "../UI/Button";
-import Input from "../UI/Input";
 
 const CitiesWrapper = styled.div`
     .Title {
@@ -17,51 +15,15 @@ const CitiesWrapper = styled.div`
         border-radius: 10px;
         background: ${props => props.theme.cities.background || ' rgba(27, 26, 26, 0.15)'};
     }
-
-    .AddCityForm {
-        margin-bottom: 30px;
-    }
-
-    input {
-        width: 66.666%;
-    }
-
-    button {
-        width: 33.333%;
-    }
 `;
 
 const Cities = (props) => {
-    const [newCity, setNewCity] = useState('');
-
-    const onChangeHandler = (e) => {
-        setNewCity(e.target.value);
-    };
-
-    const onSubmitHandler = (e) => {
-        e.preventDefault();
-        // validation conditions ->
-        props.addAndPickCity(newCity);
-        setNewCity('');
-    }
-
-    const cities = props.cities.map((item) => <CitiesItem checkIsSingleCity={props.checkIsSingleCity} isSingleCity={props.isSingleCity} dataId={item.id} key={item.id} removeCity={props.removeCity} pickCity={props.pickCity}>{item.name}</CitiesItem>);
+    const cities = props.cities.map((item) => <CitiesItem currentCity={props.currentCity} checkIsSingleCity={props.checkIsSingleCity} isSingleCity={props.isSingleCity} dataId={item.id} key={item.id} removeCity={props.removeCity} pickCity={props.pickCity}>{item.name}</CitiesItem>);
 
     return (
         <CitiesWrapper className="Cities" theme={props.theme}>
             <div className="Title">Your cities</div>
-            <form className="AddCityForm" action="#" onSubmit={onSubmitHandler}>
-                <Input
-                    type="text"
-                    value={newCity}
-                    onChange={onChangeHandler}
-                    itemBackground={props.theme.input.background}
-                    itemColor={props.theme.input.color}
-                />
-                <Button itemBackground={props.theme.button.background} itemColor={props.theme.button.color} shadow={props.theme.shadow}>
-                    Добавить
-                </Button>
-            </form>
+            <CitiesForm requestStatus={props.requestStatus} cities={props.cities} theme={props.theme} addAndPickCity={props.addAndPickCity}/>
             <ul className="List">
                 {cities}
             </ul>

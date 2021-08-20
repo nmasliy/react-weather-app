@@ -1,5 +1,5 @@
 import API from "../api/api";
-import { v4 as getUnicalId } from 'uuid';
+import { v4 as getUnicalId } from "uuid";
 
 const SET_THEME = "SET-THEME";
 const SET_WEATHER_DATA = "SET-WEATHER-DATA";
@@ -8,6 +8,7 @@ const INITIALIZED_SUCCESS = "INITIALIZED-SUCCESS";
 const ADD_CITY = "ADD-CITY";
 const REMOVE_CITY = "REMOVE-CITY";
 const CHECK_IS_SINGLE_CITY = "CHECK-IS-SINGLE-CITY";
+const SET_REQUEST_STATUS = "SET-REQUEST-STATUS";
 
 const initialState = {
     themes: {
@@ -16,7 +17,8 @@ const initialState = {
             styles: {
                 primary: "#363434",
                 background: "#FFFFFF",
-                appBackground: "linear-gradient(180deg, rgba(155, 245, 240, 0.8) 0%, rgba(141, 240, 169, 0.8) 100%)",
+                appBackground:
+                    "linear-gradient(180deg, rgba(155, 245, 240, 0.8) 0%, rgba(141, 240, 169, 0.8) 100%)",
                 burger: "#333232",
                 shadow: "4px 4px 8px 0px rgba(34, 60, 80, 0.2)",
                 toggler: {
@@ -33,8 +35,7 @@ const initialState = {
                 },
                 cities: {
                     background: "rgba(27, 26, 26, 0.15)",
-                }
-                
+                },
             },
         },
         dark: {
@@ -44,7 +45,8 @@ const initialState = {
                 shadow: "4px 4px 8px 0px #320f52",
                 background: "#232323",
                 burger: "#FFFFFF",
-                appBackground: "linear-gradient(180deg, rgba(16, 16, 16, 0.9) 0%, rgba(14, 11, 16, 0.9) 100%)",
+                appBackground:
+                    "linear-gradient(180deg, rgba(16, 16, 16, 0.9) 0%, rgba(14, 11, 16, 0.9) 100%)",
                 toggler: {
                     container: "#232323",
                     circle: "#FFFFFF",
@@ -70,7 +72,8 @@ const initialState = {
             burger: "#FFFFFF",
             shadow: "4px 4px 8px 0px #320f52",
             background: "#232323",
-            appBackground: "linear-gradient(180deg, rgba(16, 16, 16, 0.9) 0%, rgba(14, 11, 16, 0.9) 100%)",
+            appBackground:
+                "linear-gradient(180deg, rgba(16, 16, 16, 0.9) 0%, rgba(14, 11, 16, 0.9) 100%)",
             toggler: {
                 container: "#232323",
                 circle: "#FFFFFF",
@@ -98,6 +101,7 @@ const initialState = {
     },
     cities: [],
     initialized: false,
+    requestStatus: "",
 };
 
 const appReducer = (state = initialState, action) => {
@@ -143,7 +147,13 @@ const appReducer = (state = initialState, action) => {
         case CHECK_IS_SINGLE_CITY: {
             return {
                 ...state,
-                isSingleCity: state.cities.length === 1
+                isSingleCity: state.cities.length === 1,
+            };
+        }
+        case SET_REQUEST_STATUS: {
+            return {
+                ...state,
+                requestStatus: action.status
             }
         }
         default:
@@ -161,20 +171,28 @@ export const addCity = (city) => {
     };
 };
 
-export const addAndPickCity = (city) => {
+export const pickCity = (city) => {
+    return (dispatch) => {
+        dispatch(setCurrentCity(city));
+        dispatch(getWeatherData(city));
+    };
+};
+
+export const addAndPickCity = (city, setSubmitting) => {
     return (dispatch) => {
         dispatch(addCity(city));
         dispatch(pickCity(city));
         dispatch(checkIsSingleCity());
-    }
-}
+        setSubmitting(true);
+    };
+};
 
 export const removeCity = (id) => {
     return {
         type: REMOVE_CITY,
         id: id,
-    }
-}
+    };
+};
 
 export const setTheme = (theme) => {
     return {
@@ -199,28 +217,35 @@ export const setCurrentCity = (city) => {
 
 export const checkIsSingleCity = () => {
     return {
-        type: CHECK_IS_SINGLE_CITY
+        type: CHECK_IS_SINGLE_CITY,
+    };
+};
+
+const setRequestStatus = (status) => {
+    return {
+        type: SET_REQUEST_STATUS,
+        requestStatus: status
     }
 }
 
 export const getWeatherData = (city) => {
     return (dispatch) => {
-        return API.getWeather(city).then((data) => {
-            const weatherData = {
-                city: data.name,
-                status: data.weather[0].description,
-                temperature: data.main.temp,
-                imageCode: data.weather[0].icon,
-            };
-            dispatch(setWeatherData(weatherData));
+        return API.getWeather(city)
+        .then((data) => {
+            if (data.cod === 200) {
+                const weatherData = {
+                    city: data.name,
+                    status: data.weather[0].description,
+                    temperature: data.main.temp,
+                    imageCode: data.weather[0].icon,
+                };
+                dispatch(setWeatherData(weatherData));
+            } 
+        })
+        .catch(e => {
+            dispatch(setRequestStatus(e.message));
+            // иницциалищипуем с городом по умолчанию
         });
-    };
-};
-
-export const pickCity = (city) => {
-    return (dispatch) => {
-        dispatch(setCurrentCity(city));
-        dispatch(getWeatherData(city));
     };
 };
 

@@ -13,6 +13,8 @@ const mapStateToProps = (state) => {
         theme: state.theme.styles,
         cities: state.cities,
         isSingleCity: state.isSingleCity,
+        currentCity: state.currentCity,
+        requestStatus: state.requestStatus
     }
 }
 
