@@ -3,6 +3,7 @@ import { Form, Formik, ErrorMessage } from "formik";
 import Button from "../../UI/Button";
 import Input from "../../UI/Input";
 import * as yup from "yup";
+import { useState } from 'react';
 
 const CitiesFormWrapper = styled.div`
     margin-bottom: 30px;
@@ -30,23 +31,30 @@ const CitiesFormWrapper = styled.div`
 `;
 
 const CitiesForm = (props) => {
+    const [isBlur, setIsBlur] = useState(true);
+    const [status, setStatus] = useState('');
+    
     const validationSchema = yup.object().shape({
         city: yup
             .string()
-            .matches(/^[a-zA-Z]/, 'Value must be a text')
-            .typeError('Value must be a text')
+            .strict()
+            .matches(/^[A-Za-z]+$/, 'Please enter a city name, without numbers')
+            .typeError('Please enter a city name, without numbers')
             .required('')
             .max(58)
             .min(2)
     });
 
-    const addCity = (values, submitProps) => {
-        const isCityExist = props.cities.some((item) => item.name === values.city);
-        if (!isCityExist) {
-            props.addAndPickCity(values.city, submitProps.setSubmitting);
+    const addCity = (values, errors, submitProps) => {
+        const isCityAlreadyExist = props.cities.some((item) => item.name === values.city);
+
+        if (!isCityAlreadyExist) {
+            props.addAndPickCity(values.city, props.requestStatus);
             values.city = '';
+            // props.addAndPickCity(values.city, submitProps.setSubmitting, props.requestStatus);
         }
     };
+
     return (
         <CitiesFormWrapper className="CitiesForm">
             <Formik 
@@ -60,10 +68,16 @@ const CitiesForm = (props) => {
                     dirty,
                     touched,
                     handleChange,
+                    handleBlur,
                     isSubmitting
                 }) => (
                     <Form>
                         <Input
+                            onBlur={(e) => {
+                                handleBlur(e);
+                                setIsBlur(true);
+                            }}
+                            onFocus={() => setIsBlur(false)}
                             name="city"
                             type="text"
                             value={values.city}
@@ -82,8 +96,7 @@ const CitiesForm = (props) => {
                         >
                             Добавить
                         </Button>
-                        <ErrorMessage className='error' name="city" component="div" />
-                        <div>{props.requestStatus}</div>
+                        <div className='error'>{touched.city && errors.city}</div>
                     </Form>
                 )}
             </Formik>

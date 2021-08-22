@@ -4,11 +4,11 @@ import { v4 as getUnicalId } from "uuid";
 const SET_THEME = "SET-THEME";
 const SET_WEATHER_DATA = "SET-WEATHER-DATA";
 const SET_CURRENT_CITY = "SET-CURRENT-CITY";
+const SET_REQUEST_STATUS = "SET-REQUEST-STATUS";
 const INITIALIZED_SUCCESS = "INITIALIZED-SUCCESS";
 const ADD_CITY = "ADD-CITY";
 const REMOVE_CITY = "REMOVE-CITY";
 const CHECK_IS_SINGLE_CITY = "CHECK-IS-SINGLE-CITY";
-const SET_REQUEST_STATUS = "SET-REQUEST-STATUS";
 
 const initialState = {
     themes: {
@@ -101,7 +101,7 @@ const initialState = {
     },
     cities: [],
     initialized: false,
-    requestStatus: "",
+    requestStatus: false, // isRequestSuccess
 };
 
 const appReducer = (state = initialState, action) => {
@@ -153,8 +153,8 @@ const appReducer = (state = initialState, action) => {
         case SET_REQUEST_STATUS: {
             return {
                 ...state,
-                requestStatus: action.status
-            }
+                requestStatus: action.requestStatus,
+            };
         }
         default:
             return state;
@@ -178,14 +178,40 @@ export const pickCity = (city) => {
     };
 };
 
-export const addAndPickCity = (city, setSubmitting) => {
+export const getWeatherDataAndAddCity = (city, setSubmitting) => {
     return (dispatch) => {
-        dispatch(addCity(city));
-        dispatch(pickCity(city));
-        dispatch(checkIsSingleCity());
-        setSubmitting(true);
+        return API.getWeather(city)
+            .then((data) => {
+                if (data.cod === 200) {
+                    const weatherData = {
+                        city: data.name,
+                        status: data.weather[0].description,
+                        temperature: data.main.temp,
+                        imageCode: data.weather[0].icon,
+                    };
+                    dispatch(setRequestStatus(true));
+                    return weatherData;
+                }
+            })
+            .then(weatherData => {
+                dispatch(setWeatherData(weatherData));
+                dispatch(addCity(city));
+                dispatch(checkIsSingleCity());
+                setSubmitting(true);
+            })
+            .catch((e) => {
+                dispatch(setRequestStatus(false));
+                console.warn("The city does not exist");
+                // иницциалищипуем с городом по умолчанию
+            })
     };
 };
+
+export const addAndPickCity = (city) => {
+    return (dispatch) => {
+        dispatch(getWeatherDataAndAddCity(city))
+    }
+}
 
 export const removeCity = (id) => {
     return {
@@ -208,6 +234,13 @@ const setWeatherData = (data) => {
     };
 };
 
+const setRequestStatus = (status) => {
+    return {
+        type: SET_REQUEST_STATUS,
+        requestStatus: status,
+    };
+};
+
 export const setCurrentCity = (city) => {
     return {
         type: SET_CURRENT_CITY,
@@ -221,31 +254,29 @@ export const checkIsSingleCity = () => {
     };
 };
 
-const setRequestStatus = (status) => {
-    return {
-        type: SET_REQUEST_STATUS,
-        requestStatus: status
-    }
-}
-
 export const getWeatherData = (city) => {
     return (dispatch) => {
         return API.getWeather(city)
-        .then((data) => {
-            if (data.cod === 200) {
-                const weatherData = {
-                    city: data.name,
-                    status: data.weather[0].description,
-                    temperature: data.main.temp,
-                    imageCode: data.weather[0].icon,
-                };
+            .then((data) => {
+                if (data.cod === 200) {
+                    const weatherData = {
+                        city: data.name,
+                        status: data.weather[0].description,
+                        temperature: data.main.temp,
+                        imageCode: data.weather[0].icon,
+                    };
+                    dispatch(setRequestStatus(true));
+                    return weatherData;
+                }
+            })
+            .then(weatherData => {
                 dispatch(setWeatherData(weatherData));
-            } 
-        })
-        .catch(e => {
-            dispatch(setRequestStatus(e.message));
-            // иницциалищипуем с городом по умолчанию
-        });
+                // Add city
+            })
+            .catch((e) => {
+                dispatch(setRequestStatus(false));
+                // иницциалищипуем с городом по умолчанию
+            })
     };
 };
 
