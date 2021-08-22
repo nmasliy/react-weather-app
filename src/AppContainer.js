@@ -28,6 +28,12 @@ const GlobalStyle = createGlobalStyle`
 
 	img {
 		display: flex;
+		max-width: 100%;
+	}
+
+	a,
+	button {
+		cursor: pointer;
 	}
 	
 	a,
@@ -41,7 +47,7 @@ const GlobalStyle = createGlobalStyle`
 
 const AppContainer = (props) => {
 	useEffect(() => {
-		props.initializeApp('Kostanay');
+		props.initializeApp('Kostanay' || 'Tokyo');
 	},[])
 
 	if (!props.initialized) {return <Preloader /> }
