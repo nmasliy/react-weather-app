@@ -13,8 +13,16 @@ const API = {
             .then((response) => {
                 return response.data;
             });
-        
     },
+    getUserCity() {
+        return axios.get('https://api.ipify.org')
+            .then(({data}) => data)
+            .then(ip => {
+                return axios.get(`https://geo.ipify.org/api/v1?apiKey=at_zXucZUJUMQM2jv4zPDkZKqZook3Xw&ipAddress=${ip}`)
+                    .then(response => response.data.location.city)
+                    .then(city => city);
+            });
+    }
 };
 
 export default API;

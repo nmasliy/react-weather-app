@@ -45,13 +45,12 @@ const CitiesForm = (props) => {
             .min(2)
     });
 
-    const addCity = (values, errors, submitProps) => {
+    const addCity = (values, submitProps) => {
         const isCityAlreadyExist = props.cities.some((item) => item.name === values.city);
 
         if (!isCityAlreadyExist) {
-            props.addAndPickCity(values.city, props.requestStatus);
+            props.addAndPickCity(values.city, submitProps.setSubmitting);
             values.city = '';
-            // props.addAndPickCity(values.city, submitProps.setSubmitting, props.requestStatus);
         }
     };
 

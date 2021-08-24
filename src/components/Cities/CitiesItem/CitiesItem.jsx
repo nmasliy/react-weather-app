@@ -26,8 +26,11 @@ const CitiesItem = (props) => {
     }
     const removeCity = (e) => {
         e.stopPropagation();
-        if (!props.isSingleCity) props.removeCity(props.dataId);
+
+        if (!props.isSingleCity) props.removeAndChangeCity(props.dataId, cityItem, props.currentCity, props.cities);
         props.checkIsSingleCity();
+        
+        // if (props.isSingleCity) props.pickCity(cityItem);
     }
     return (
         <CitiesItemWrapper onClick={pickCity} className="Item">

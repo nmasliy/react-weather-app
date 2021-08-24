@@ -47,7 +47,7 @@ const GlobalStyle = createGlobalStyle`
 
 const AppContainer = (props) => {
 	useEffect(() => {
-		props.initializeApp('Kostanay' || 'Tokyo');
+		props.initializeApp();
 	},[])
 
 	if (!props.initialized) {return <Preloader /> }

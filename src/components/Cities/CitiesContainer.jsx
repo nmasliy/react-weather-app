@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { pickCity, addAndPickCity, removeCity, checkIsSingleCity } from '../../redux/app-reducer';
+import {pickCity, addAndPickCity, removeAndChangeCity, checkIsSingleCity} from '../../redux/app-reducer';
 import Cities from './Cities';
 
 const CitiesContainer = (props) => {
@@ -18,4 +18,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { pickCity, addAndPickCity, removeCity, checkIsSingleCity })(CitiesContainer);
+export default connect(mapStateToProps, { pickCity, addAndPickCity, removeAndChangeCity, checkIsSingleCity })(CitiesContainer);

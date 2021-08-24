@@ -194,6 +194,7 @@ export const getWeatherDataAndAddCity = (city, setSubmitting) => {
                 }
             })
             .then(weatherData => {
+                dispatch(setCurrentCity(city));
                 dispatch(setWeatherData(weatherData));
                 dispatch(addCity(city));
                 dispatch(checkIsSingleCity());
@@ -202,14 +203,25 @@ export const getWeatherDataAndAddCity = (city, setSubmitting) => {
             .catch((e) => {
                 dispatch(setRequestStatus(false));
                 console.warn("The city does not exist");
-                // иницциалищипуем с городом по умолчанию
+                // иницциализируем с городом по умолчанию
             })
     };
 };
 
-export const addAndPickCity = (city) => {
+//refactor
+export const addAndPickCity = (city, setSubmitting) => {
     return (dispatch) => {
-        dispatch(getWeatherDataAndAddCity(city))
+        dispatch(getWeatherDataAndAddCity(city, setSubmitting))
+    }
+}
+
+export const removeAndChangeCity = (id, city, currentCity, cities) => {
+    return (dispatch) => {
+        dispatch(removeCity(id));
+
+        if (currentCity === city) {
+            dispatch(pickCity(cities[0].name))
+        }
     }
 }
 
@@ -271,26 +283,29 @@ export const getWeatherData = (city) => {
             })
             .then(weatherData => {
                 dispatch(setWeatherData(weatherData));
-                // Add city
             })
             .catch((e) => {
                 dispatch(setRequestStatus(false));
-                // иницциалищипуем с городом по умолчанию
             })
     };
 };
 
 const initializingSuccess = () => ({ type: INITIALIZED_SUCCESS });
 
-export const initializeApp = (city) => {
+export const initializeApp = () => {
     return (dispatch) => {
-        const promises = [
-            dispatch(setCurrentCity(city)),
-            dispatch(getWeatherData(city)),
-            dispatch(addCity(city)),
-        ];
-        Promise.all(promises).then(() => dispatch(initializingSuccess()));
-    };
+        API.getUserCity()
+            .then(city => {
+                const promises = [
+                    dispatch(setCurrentCity(city)),
+                    dispatch(getWeatherData(city)),
+                    dispatch(addCity(city)),
+                ]
+                Promise.all(promises).then(() => dispatch(initializingSuccess()))
+            })
+            .catch(e => console.warn(e.message))
+            .finally(() => dispatch(initializingSuccess()))
+    }
 };
 
 export default appReducer;
