@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const InfoWrapper = styled.div`
     text-align: center;
@@ -44,12 +44,13 @@ const InfoWrapper = styled.div`
 `;
 
 const Info = (props) => {
+    const imgBaseUrl = 'http://openweathermap.org/img/wn/';
     return (
         <InfoWrapper className="Info">
-            <div className="Location">{props.weather.city}</div>
+            <div className="Location">{props.currentCity}</div>
             <div className="Today">
                 <div className="Img">
-                    <img src={`http://openweathermap.org/img/wn/${props.weather.imageCode}@2x.png`} alt={props.weather.status} />
+                    <img src={`${imgBaseUrl}${props.weather.imageCode}@2x.png`} alt={props.weather.status} />
                 </div>
                 <div className="Date">
                     <p>

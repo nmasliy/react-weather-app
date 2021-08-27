@@ -1,5 +1,5 @@
-import { connect } from 'react-redux';
-import Info from './Info';
+import { connect } from "react-redux"
+import Info from "./Info";
 
 const InfoContainer = (props) => {
     
@@ -13,13 +13,14 @@ const InfoContainer = (props) => {
     };
 
     return (
-        <Info dateData={dateData} weather={props.weather}/>
+        <Info dateData={dateData} weather={props.weather} currentCity={props.currentCity}/>
     );
 };
 
 const mapStateToProps = (state) => {
     return {
         weather: state.weather,
+        currentCity: state.currentCity
     }
 }
 

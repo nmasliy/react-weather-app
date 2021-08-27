@@ -18,12 +18,12 @@ const CitiesWrapper = styled.div`
 `;
 
 const Cities = (props) => {
-    const cities = props.cities.map((item) => <CitiesItem currentCity={props.currentCity} checkIsSingleCity={props.checkIsSingleCity} isSingleCity={props.isSingleCity} dataId={item.id} key={item.id} removeCity={props.removeCity} pickCity={props.pickCity}>{item.name}</CitiesItem>);
+    const cities = props.cities.map((item) => <CitiesItem {...props} dataId={item.id} key={item.id} >{item.name}</CitiesItem>);
 
     return (
         <CitiesWrapper className="Cities" theme={props.theme}>
             <div className="Title">Your cities</div>
-            <CitiesForm requestStatus={props.requestStatus} cities={props.cities} theme={props.theme} addAndPickCity={props.addAndPickCity}/>
+            <CitiesForm isRequestSuccess={props.isRequestSuccess} cities={props.cities} theme={props.theme} getWeatherDataAndAddCity={props.getWeatherDataAndAddCity}/>
             <ul className="List">
                 {cities}
             </ul>

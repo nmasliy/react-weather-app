@@ -1,6 +1,6 @@
-import { connect } from 'react-redux';
-import { setTheme } from '../../../redux/app-reducer';
-import ThemeToggler from './ThemeToggler';
+import { connect } from "react-redux";
+import { setTheme } from "../../../redux/app-reducer";
+import ThemeToggler from "./ThemeToggler";
 
 const ThemeTogglerContainer = (props) => {
     const toggleTheme = () => {
