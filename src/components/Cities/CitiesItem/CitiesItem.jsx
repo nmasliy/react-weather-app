@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import deleteIcon from "../../../assets/images/remove.svg";
 
-const CitiesItemWrapper = styled.li`
+const CitiesItemWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     word-break: break-all;
@@ -16,6 +16,17 @@ const CitiesItemWrapper = styled.li`
         height: 30px;
         flex-shrink: 0;
     }
+
+      @media(max-width: 840px) {
+          padding: 8px 0;
+          font-size: 16px;
+          line-height: 24px;
+        
+            .Delete {
+              width: 20px;
+              height: 20px;
+            }
+      }
 `;
 
 const CitiesItem = (props) => {
@@ -29,6 +40,8 @@ const CitiesItem = (props) => {
 
         if (!props.isSingleCity) props.removeAndChangeCity(props.dataId, cityItem, props.currentCity, props.cities);
         props.checkIsSingleCity();
+
+        window.localStorage.setItem('cities', JSON.stringify(props.cities));
     }
     return (
         <CitiesItemWrapper onClick={pickCity} className="Item">

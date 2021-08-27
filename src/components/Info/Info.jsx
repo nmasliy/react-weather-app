@@ -12,13 +12,13 @@ const InfoWrapper = styled.div`
         margin-bottom: 40px;
     }
     .Img {
-        margin-right: 25px;
+        margin: 0 25px;
     }
     .Date {
         font-weight: 500;
         font-size: 24px;
         line-height: 28px;
-        margin-left: 25px;
+        margin: 0 25px;
 
         p {
             margin: 10px 0;
@@ -39,8 +39,32 @@ const InfoWrapper = styled.div`
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
+        margin: 0 -25px;
         margin-bottom: 40px;
+        overflow: hidden;
     }
+
+      @media(max-width: 840px) {
+        padding-top: 80px;
+        margin-bottom: 50px;
+        
+        .Location {
+          font-size: 36px;
+          line-height: 48px;
+          margin-bottom: 30px;
+        }
+        .Status {
+          font-size: 18px;
+        }
+        .Degree {
+          font-size: 64px;
+          line-height: 72px;
+        }
+        .Date {
+          font-size: 20px;
+          line-height: 24px;
+        }
+      }
 `;
 
 const Info = (props) => {

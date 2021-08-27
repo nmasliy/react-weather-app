@@ -48,12 +48,22 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const AppWrapper = styled.div`
-	background: ${props => props.theme.appBackground};
-	max-width: 800px;
-	width: 100%;
-	border-radius: 15px;
-	padding: 30px;
-	margin: 30px auto;
+	margin: 15px;	
+	
+	.AppInner {
+		margin: 30px auto;
+		max-width: 800px;
+		width: 100%;
+		background: ${props => props.theme.appBackground};
+		border-radius: 15px;
+		padding: 30px;
+	}
+	
+	@media(max-width: 840px) {
+		.AppInner {
+			padding: 15px;
+		}
+	}
 `;
 
 const App = (props) => {
@@ -66,9 +76,11 @@ const App = (props) => {
 		return (
 			<>
 				<AppWrapper theme={props.theme} className="App">
-					<Header />
-					<InfoContainer />
-					<CitiesContainer />
+					<div className="AppInner">
+						<Header />
+						<InfoContainer />
+						<CitiesContainer />
+					</div>
 				</AppWrapper>
 				<GlobalStyle theme={props.theme}/>
 			</>
