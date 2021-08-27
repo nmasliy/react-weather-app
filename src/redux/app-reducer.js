@@ -1,14 +1,14 @@
 import API from "../api/api";
 import { v4 as getUnicalId } from "uuid";
 
-const SET_THEME = "SET-THEME";
-const SET_WEATHER_DATA = "SET-WEATHER-DATA";
-const SET_CURRENT_CITY = "SET-CURRENT-CITY";
-const SET_REQUEST_STATUS = "SET-REQUEST-STATUS";
-const INITIALIZED_SUCCESS = "INITIALIZED-SUCCESS";
-const ADD_CITY = "ADD-CITY";
-const REMOVE_CITY = "REMOVE-CITY";
-const CHECK_IS_SINGLE_CITY = "CHECK-IS-SINGLE-CITY";
+const SET_THEME = 'SET-THEME';
+const SET_WEATHER_DATA = 'SET-WEATHER-DATA';
+const SET_CURRENT_CITY = 'SET-CURRENT-CITY';
+const SET_REQUEST_STATUS = 'SET-REQUEST-STATUS';
+const INITIALIZED_SUCCESS = 'INITIALIZED-SUCCESS';
+const ADD_CITY = 'ADD-CITY';
+const REMOVE_CITY = 'REMOVE-CITY';
+const CHECK_IS_SINGLE_CITY = 'CHECK-IS-SINGLE-CITY';
 
 const initialState = {
     themes: {
@@ -93,14 +93,14 @@ const initialState = {
     },
     isSingleCity: true,
     currentCity: {
-        id: "",
-        name: ""
+        id: '',
+        name: ''
     },
     weather: {
-        city: "...",
-        status: "...",
-        temperature: "...",
-        imageCode: "",
+        city: '...',
+        status: '...',
+        temperature: '...',
+        imageCode: '',
     },
     cities: [],
     initialized: false,
