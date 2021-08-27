@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import styled from 'styled-components';
+import { useState } from "react";
+import styled from "styled-components";
 
 const ThemeTogglerWrapper = styled.div`
     display: flex;
@@ -7,6 +7,7 @@ const ThemeTogglerWrapper = styled.div`
     justify-content: flex-start;
     background-color: ${props => props.theme.toggler.container || '#000000'};
     border-radius: 10px;
+    margin-left: auto;
     width: 44px;
     height: 22px;
     cursor: pointer;
@@ -23,16 +24,16 @@ const ThemeTogglerWrapper = styled.div`
 `;
 
 const ThemeToggler = (props) => {
-    const [togglerCircle, moveTogglerCircle] = useState(false);
+    const [isLightTheme, setIsLightTheme] = useState(false);
     
     const handleClick = (e) => {
-        moveTogglerCircle(!togglerCircle);
+        setIsLightTheme(!isLightTheme);
         props.toggleTheme();
     }
 
     return (
         <ThemeTogglerWrapper theme={props.theme} className="Toggler" onClick={handleClick}>
-            <div className="Circle" style={togglerCircle ? {marginLeft: 26} : {}}></div>
+            <div className="Circle" style={isLightTheme ? {marginLeft: 26} : {}}/>
         </ThemeTogglerWrapper>
     );
 };
