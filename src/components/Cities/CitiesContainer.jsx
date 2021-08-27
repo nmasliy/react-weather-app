@@ -1,6 +1,6 @@
-import { connect } from 'react-redux';
-import {pickCity, addAndPickCity, removeAndChangeCity, checkIsSingleCity} from '../../redux/app-reducer';
-import Cities from './Cities';
+import { connect } from "react-redux";
+import {pickCity, getWeatherDataAndAddCity, removeAndChangeCity, checkIsSingleCity} from "../../redux/app-reducer";
+import Cities from "./Cities";
 
 const CitiesContainer = (props) => {
     return (
@@ -14,8 +14,8 @@ const mapStateToProps = (state) => {
         cities: state.cities,
         isSingleCity: state.isSingleCity,
         currentCity: state.currentCity,
-        requestStatus: state.requestStatus
+        isRequestSuccess: state.isRequestSuccess
     }
 }
 
-export default connect(mapStateToProps, { pickCity, addAndPickCity, removeAndChangeCity, checkIsSingleCity })(CitiesContainer);
+export default connect(mapStateToProps, { pickCity, getWeatherDataAndAddCity, removeAndChangeCity, checkIsSingleCity })(CitiesContainer);

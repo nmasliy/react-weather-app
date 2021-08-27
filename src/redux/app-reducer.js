@@ -92,7 +92,10 @@ const initialState = {
         },
     },
     isSingleCity: true,
-    currentCity: "",
+    currentCity: {
+        id: "",
+        name: ""
+    },
     weather: {
         city: "...",
         status: "...",
@@ -101,7 +104,7 @@ const initialState = {
     },
     cities: [],
     initialized: false,
-    requestStatus: false, // isRequestSuccess
+    requestStatus: false,
 };
 
 const appReducer = (state = initialState, action) => {
@@ -166,7 +169,7 @@ export const addCity = (city) => {
         type: ADD_CITY,
         city: {
             name: city,
-            id: getUnicalId(),
+            id: getUnicalId()
         },
     };
 };
@@ -178,7 +181,7 @@ export const pickCity = (city) => {
     };
 };
 
-export const getWeatherDataAndAddCity = (city, setSubmitting) => {
+export const getWeatherDataAndAddCity = (city, setSubmitting, setStatus) => {
     return (dispatch) => {
         return API.getWeather(city)
             .then((data) => {
@@ -198,30 +201,24 @@ export const getWeatherDataAndAddCity = (city, setSubmitting) => {
                 dispatch(setWeatherData(weatherData));
                 dispatch(addCity(city));
                 dispatch(checkIsSingleCity());
-                setSubmitting(true);
             })
             .catch((e) => {
                 dispatch(setRequestStatus(false));
-                console.warn("The city does not exist");
-                // иницциализируем с городом по умолчанию
+                setStatus('The city does not exist');
             })
+            .finally(() => setSubmitting(false))
     };
 };
-
-//refactor
-export const addAndPickCity = (city, setSubmitting) => {
-    return (dispatch) => {
-        dispatch(getWeatherDataAndAddCity(city, setSubmitting))
-    }
-}
 
 export const removeAndChangeCity = (id, city, currentCity, cities) => {
     return (dispatch) => {
         dispatch(removeCity(id));
 
-        if (currentCity === city) {
-            dispatch(pickCity(cities[0].name))
+        if (currentCity.name === city) {
+            if (currentCity.name === cities[0].name) dispatch(pickCity(cities[1].name));
+            else dispatch(pickCity(cities[0].name));
         }
+
     }
 }
 
@@ -243,26 +240,6 @@ const setWeatherData = (data) => {
     return {
         type: SET_WEATHER_DATA,
         weather: { ...data },
-    };
-};
-
-const setRequestStatus = (status) => {
-    return {
-        type: SET_REQUEST_STATUS,
-        requestStatus: status,
-    };
-};
-
-export const setCurrentCity = (city) => {
-    return {
-        type: SET_CURRENT_CITY,
-        currentCity: city,
-    };
-};
-
-export const checkIsSingleCity = () => {
-    return {
-        type: CHECK_IS_SINGLE_CITY,
     };
 };
 
@@ -290,21 +267,41 @@ export const getWeatherData = (city) => {
     };
 };
 
+const setRequestStatus = (status) => {
+    return {
+        type: SET_REQUEST_STATUS,
+        requestStatus: status,
+    };
+};
+
+export const setCurrentCity = (city) => {
+    return {
+        type: SET_CURRENT_CITY,
+        currentCity: city
+    };
+};
+
+export const checkIsSingleCity = () => {
+    return {
+        type: CHECK_IS_SINGLE_CITY,
+    };
+};
+
 const initializingSuccess = () => ({ type: INITIALIZED_SUCCESS });
 
 export const initializeApp = () => {
     return (dispatch) => {
         API.getUserCity()
             .then(city => {
-                const promises = [
-                    dispatch(setCurrentCity(city)),
-                    dispatch(getWeatherData(city)),
-                    dispatch(addCity(city)),
-                ]
-                Promise.all(promises).then(() => dispatch(initializingSuccess()))
+                dispatch(setCurrentCity(city));
+                dispatch(getWeatherData(city))
+                    .then(() => dispatch(addCity(city)))
+                    .catch(e => console.warn(e.message))
+                    .finally(() => {
+                        dispatch(initializingSuccess())
+                    })
             })
-            .catch(e => console.warn(e.message))
-            .finally(() => dispatch(initializingSuccess()))
+
     }
 };
 

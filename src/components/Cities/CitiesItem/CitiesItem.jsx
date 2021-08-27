@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import deleteIcon from '../../../assets/images/remove.svg';
+import styled from "styled-components";
+import deleteIcon from "../../../assets/images/remove.svg";
 
 const CitiesItemWrapper = styled.li`
     display: flex;
@@ -21,7 +21,7 @@ const CitiesItemWrapper = styled.li`
 const CitiesItem = (props) => {
     const cityItem = props.children;
     const pickCity = () => {
-        if (!props.isSingleCity || props.currentCity !== cityItem)
+        if (!props.isSingleCity || props.currentCity.name !== cityItem)
             props.pickCity(cityItem);
     }
     const removeCity = (e) => {
@@ -29,8 +29,6 @@ const CitiesItem = (props) => {
 
         if (!props.isSingleCity) props.removeAndChangeCity(props.dataId, cityItem, props.currentCity, props.cities);
         props.checkIsSingleCity();
-        
-        // if (props.isSingleCity) props.pickCity(cityItem);
     }
     return (
         <CitiesItemWrapper onClick={pickCity} className="Item">

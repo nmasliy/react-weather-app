@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import CitiesForm from './CitiesForm/CitiesForm';
 import CitiesItem from "./CitiesItem/CitiesItem";
-import {removeAndChangeCity} from "../../redux/app-reducer";
 
 const CitiesWrapper = styled.div`
     .Title {
@@ -24,7 +23,7 @@ const Cities = (props) => {
     return (
         <CitiesWrapper className="Cities" theme={props.theme}>
             <div className="Title">Your cities</div>
-            <CitiesForm requestStatus={props.requestStatus} cities={props.cities} theme={props.theme} addAndPickCity={props.addAndPickCity}/>
+            <CitiesForm isRequestSuccess={props.isRequestSuccess} cities={props.cities} theme={props.theme} getWeatherDataAndAddCity={props.getWeatherDataAndAddCity}/>
             <ul className="List">
                 {cities}
             </ul>
