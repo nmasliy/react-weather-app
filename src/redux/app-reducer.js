@@ -293,8 +293,6 @@ const initializingSuccess = () => ({ type: INITIALIZED_SUCCESS });
 
 const initializeCity = (name, id) => {
     return (dispatch) => {
-        // dispatch(setCurrentCity(city));
-        // dispatch(getWeatherData(city))
         dispatch(pickCity(name))
             .then(() => {
                 dispatch(addCity(name, id))
