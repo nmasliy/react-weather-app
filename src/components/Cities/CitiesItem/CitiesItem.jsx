@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import deleteIcon from "../../../assets/images/remove.svg";
+import {useEffect} from "react";
 
 const CitiesItemWrapper = styled.div`
     display: flex;
@@ -30,6 +31,10 @@ const CitiesItemWrapper = styled.div`
 `;
 
 const CitiesItem = (props) => {
+    useEffect(() => {
+        window.localStorage.setItem('cities', JSON.stringify(props.cities));
+    }, [props.cities]);
+
     const cityItem = props.children;
     const pickCity = () => {
         if (!props.isSingleCity || props.currentCity.name !== cityItem)
@@ -40,8 +45,6 @@ const CitiesItem = (props) => {
 
         if (!props.isSingleCity) props.removeAndChangeCity(props.dataId, cityItem, props.currentCity, props.cities);
         props.checkIsSingleCity();
-
-        window.localStorage.setItem('cities', JSON.stringify(props.cities));
     }
     return (
         <CitiesItemWrapper onClick={pickCity} className="Item">
