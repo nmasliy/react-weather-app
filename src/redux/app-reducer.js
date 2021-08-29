@@ -92,14 +92,7 @@ const initialState = {
         },
     },
     isSingleCity: true,
-<<<<<<< HEAD
-    currentCity: {
-        id: '',
-        name: ''
-    },
-=======
     currentCity: '',
->>>>>>> develop
     weather: {
         city: '...',
         status: '...',
