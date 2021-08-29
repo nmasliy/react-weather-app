@@ -161,11 +161,11 @@ const appReducer = (state = initialState, action) => {
     }
 };
 
-export const addCity = (city, id = getUnicalId()) => {
+export const addCity = (name, id = getUnicalId()) => {
     return {
         type: ADD_CITY,
         city: {
-            name: city,
+            name: name,
             id: id
         },
     };
@@ -174,7 +174,7 @@ export const addCity = (city, id = getUnicalId()) => {
 export const pickCity = (city) => {
     return (dispatch) => {
         dispatch(setCurrentCity(city));
-        dispatch(getWeatherData(city));
+        return dispatch(getWeatherData(city));
     };
 };
 
@@ -284,28 +284,36 @@ export const checkIsSingleCity = () => {
 
 const initializingSuccess = () => ({ type: INITIALIZED_SUCCESS });
 
-export const initializeApp = () => {
+const initializeCity = (name, id) => {
+    return (dispatch) => {
+        // dispatch(setCurrentCity(city));
+        // dispatch(getWeatherData(city))
+        dispatch(pickCity(name))
+            .then(() => {
+                dispatch(addCity(name, id))
+                dispatch(checkIsSingleCity());
+            })
+            .catch(e => console.warn(e.message))
+            .finally(() => dispatch(initializingSuccess()))
+    }
+}
 
+export const initializeApp = () => {
     return (dispatch) => {
         const cities = JSON.parse(window.localStorage.getItem('cities')) || null;
-        API.getUserCity()
-            .then(city => {
-                if (cities) {
-                    cities.forEach(item => {
-                        if (item.name.toUpperCase() !== city.toUpperCase()) {
-                            dispatch(addCity(item.name, item.id));
-                        }
-                    });
-                }
-                dispatch(setCurrentCity(city));
-                dispatch(getWeatherData(city))
-                    .then(() => {
-                        dispatch(addCity(city))
-                        dispatch(checkIsSingleCity());
-                    })
-                    .catch(e => console.warn(e.message))
-                    .finally(() => dispatch(initializingSuccess()))
-            })
+
+        if (cities) {
+            cities.forEach(item => {
+                dispatch(addCity(item.name));
+            });
+            dispatch(pickCity(cities[0].name))
+                .then(() => {
+                    dispatch(checkIsSingleCity());
+                    dispatch(initializingSuccess());
+                });
+
+        }
+        else API.getUserCity().then(city => dispatch(initializeCity(city)))
     }
 };
 
