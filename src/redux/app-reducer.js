@@ -92,10 +92,14 @@ const initialState = {
         },
     },
     isSingleCity: true,
+<<<<<<< HEAD
     currentCity: {
         id: '',
         name: ''
     },
+=======
+    currentCity: '',
+>>>>>>> develop
     weather: {
         city: '...',
         status: '...',
@@ -164,12 +168,12 @@ const appReducer = (state = initialState, action) => {
     }
 };
 
-export const addCity = (city) => {
+export const addCity = (name, id = getUnicalId()) => {
     return {
         type: ADD_CITY,
         city: {
-            name: city,
-            id: getUnicalId()
+            name: name,
+            id: id
         },
     };
 };
@@ -177,7 +181,7 @@ export const addCity = (city) => {
 export const pickCity = (city) => {
     return (dispatch) => {
         dispatch(setCurrentCity(city));
-        dispatch(getWeatherData(city));
+        return dispatch(getWeatherData(city));
     };
 };
 
@@ -214,8 +218,8 @@ export const removeAndChangeCity = (id, city, currentCity, cities) => {
     return (dispatch) => {
         dispatch(removeCity(id));
 
-        if (currentCity.name === city) {
-            if (currentCity.name === cities[0].name) dispatch(pickCity(cities[1].name));
+        if (currentCity === city) {
+            if (currentCity === cities[0].name) dispatch(pickCity(cities[1].name));
             else dispatch(pickCity(cities[0].name));
         }
 
@@ -261,9 +265,7 @@ export const getWeatherData = (city) => {
             .then(weatherData => {
                 dispatch(setWeatherData(weatherData));
             })
-            .catch((e) => {
-                dispatch(setRequestStatus(false));
-            })
+            .catch((e) => dispatch(setRequestStatus(false)))
     };
 };
 
@@ -289,19 +291,36 @@ export const checkIsSingleCity = () => {
 
 const initializingSuccess = () => ({ type: INITIALIZED_SUCCESS });
 
+const initializeCity = (name, id) => {
+    return (dispatch) => {
+        // dispatch(setCurrentCity(city));
+        // dispatch(getWeatherData(city))
+        dispatch(pickCity(name))
+            .then(() => {
+                dispatch(addCity(name, id))
+                dispatch(checkIsSingleCity());
+            })
+            .catch(e => console.warn(e.message))
+            .finally(() => dispatch(initializingSuccess()))
+    }
+}
+
 export const initializeApp = () => {
     return (dispatch) => {
-        API.getUserCity()
-            .then(city => {
-                dispatch(setCurrentCity(city));
-                dispatch(getWeatherData(city))
-                    .then(() => dispatch(addCity(city)))
-                    .catch(e => console.warn(e.message))
-                    .finally(() => {
-                        dispatch(initializingSuccess())
-                    })
-            })
+        const cities = JSON.parse(window.localStorage.getItem('cities')) || null;
 
+        if (cities) {
+            cities.forEach(item => {
+                dispatch(addCity(item.name));
+            });
+            dispatch(pickCity(cities[0].name))
+                .then(() => {
+                    dispatch(checkIsSingleCity());
+                    dispatch(initializingSuccess());
+                });
+
+        }
+        else API.getUserCity().then(city => dispatch(initializeCity(city)))
     }
 };
 

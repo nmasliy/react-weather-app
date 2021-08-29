@@ -33,6 +33,16 @@ const CitiesFormWrapper = styled.div`
         min-height: 25px;
         font-style: italic;
     }
+
+      @media(max-width: 840px) {
+        margin-bottom: 15px;
+      }
+
+      @media(max-width: 400px) {
+          input, button {
+            width: 100%;
+          }
+      }
 `;
 
 const CitiesForm = (props) => {
@@ -56,6 +66,8 @@ const CitiesForm = (props) => {
             props.getWeatherDataAndAddCity(values.city, submitProps.setSubmitting, setStatus);
             values.city = '';
             setStatus('');
+
+            window.localStorage.setItem('cities', JSON.stringify(props.cities));
         } else {
             submitProps.setSubmitting(false);
             setStatus(`The ${values.city} is already added to your cities`);
