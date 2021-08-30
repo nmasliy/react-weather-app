@@ -13,81 +13,81 @@ const CHECK_IS_SINGLE_CITY = 'CHECK-IS-SINGLE-CITY';
 const initialState = {
     themes: {
         light: {
-            name: "light",
+            name: 'light',
             styles: {
-                primary: "#363434",
-                background: "#FFFFFF",
+                primary: '#363434',
+                background: '#FFFFFF',
                 appBackground:
-                    "linear-gradient(180deg, rgba(155, 245, 240, 0.8) 0%, rgba(141, 240, 169, 0.8) 100%)",
-                burger: "#333232",
-                shadow: "4px 4px 8px 0px rgba(34, 60, 80, 0.2)",
+                    'linear-gradient(180deg, rgba(155, 245, 240, 0.8) 0%, rgba(141, 240, 169, 0.8) 100%)',
+                burger: '#333232',
+                shadow: '4px 4px 8px 0px rgba(34, 60, 80, 0.2)',
                 toggler: {
-                    container: "#284c54",
-                    circle: "#FFFFFF",
+                    container: '#284c54',
+                    circle: '#FFFFFF',
                 },
                 input: {
-                    color: "#363434",
-                    background: "#FFFFFF",
+                    color: '#363434',
+                    background: '#FFFFFF',
                 },
                 button: {
-                    color: "#FFFFFF",
-                    background: "#33cfb2;",
+                    color: '#FFFFFF',
+                    background: '#33cfb2',
                 },
                 cities: {
-                    background: "rgba(27, 26, 26, 0.15)",
+                    background: 'rgba(27, 26, 26, 0.15)',
                 },
             },
         },
         dark: {
-            name: "dark",
+            name: 'dark',
             styles: {
-                primary: "#FFFFFF",
-                shadow: "4px 4px 8px 0px #320f52",
-                background: "#232323",
-                burger: "#FFFFFF",
+                primary: '#FFFFFF',
+                shadow: '4px 4px 8px 0px #320f52',
+                background: '#232323',
+                burger: '#FFFFFF',
                 appBackground:
-                    "linear-gradient(180deg, rgba(16, 16, 16, 0.9) 0%, rgba(14, 11, 16, 0.9) 100%)",
+                    'linear-gradient(180deg, rgba(16, 16, 16, 0.9) 0%, rgba(14, 11, 16, 0.9) 100%)',
                 toggler: {
-                    container: "#232323",
-                    circle: "#FFFFFF",
+                    container: '#232323',
+                    circle: '#FFFFFF',
                 },
                 cities: {
-                    background: "rgba(27, 26, 26, 0.95)",
+                    background: 'rgba(27, 26, 26, 0.95)',
                 },
                 input: {
-                    color: "#363434",
-                    background: "#FFFFFF",
+                    color: '#363434',
+                    background: '#FFFFFF',
                 },
                 button: {
-                    color: "#FFFFFF",
-                    background: "#4e1390",
+                    color: '#FFFFFF',
+                    background: '#4e1390',
                 },
             },
         },
     },
     theme: {
-        name: "dark",
+        name: 'dark',
         styles: {
-            primary: "#FFFFFF",
-            burger: "#FFFFFF",
-            shadow: "4px 4px 8px 0px #320f52",
-            background: "#232323",
+            primary: '#FFFFFF',
+            burger: '#FFFFFF',
+            shadow: '4px 4px 8px 0px #320f52',
+            background: '#232323',
             appBackground:
-                "linear-gradient(180deg, rgba(16, 16, 16, 0.9) 0%, rgba(14, 11, 16, 0.9) 100%)",
+                'linear-gradient(180deg, rgba(16, 16, 16, 0.9) 0%, rgba(14, 11, 16, 0.9) 100%)',
             toggler: {
-                container: "#232323",
-                circle: "#FFFFFF",
+                container: '#232323',
+                circle: '#FFFFFF',
             },
             cities: {
-                background: "rgba(27, 26, 26, 0.95)",
+                background: 'rgba(27, 26, 26, 0.95)',
             },
             input: {
-                color: "#363434",
-                background: "#FFFFFF",
+                color: '#363434',
+                background: '#FFFFFF',
             },
             button: {
-                color: "#FFFFFF",
-                background: "#4e1390",
+                color: '#FFFFFF',
+                background: '#4e1390',
             },
         },
     },
@@ -297,6 +297,8 @@ const initializeCity = (name, id) => {
 }
 
 export const initializeApp = () => {
+    const defaultCity = 'Moscow';
+
     return (dispatch) => {
         const cities = JSON.parse(window.localStorage.getItem('cities')) || null;
 
@@ -311,7 +313,9 @@ export const initializeApp = () => {
                 });
 
         }
-        else API.getUserCity().then(city => dispatch(initializeCity(city)))
+        else API.getUserCity()
+            .then(city => dispatch(initializeCity(city)))
+            .catch(() => dispatch(initializeCity(defaultCity)))
     }
 };
 
