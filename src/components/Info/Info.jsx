@@ -13,6 +13,8 @@ const InfoWrapper = styled.div`
     }
     .Img {
         margin: 0 25px;
+          width: 100px;
+          height: 100px;
     }
     .Date {
         font-weight: 500;
@@ -71,7 +73,7 @@ const Info = (props) => {
     const imgBaseUrl = 'http://openweathermap.org/img/wn/';
     return (
         <InfoWrapper className="Info">
-            <div className="Location">{props.currentCity}</div>
+            <div className="Location">{props.weather.city}</div>
             <div className="Today">
                 <div className="Img">
                     <img src={`${imgBaseUrl}${props.weather.imageCode}@2x.png`} alt={props.weather.status} />

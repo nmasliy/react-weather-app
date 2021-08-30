@@ -52,7 +52,7 @@ const CitiesForm = (props) => {
         city: yup
             .string()
             .strict()
-            .matches(/^[A-Za-z]+$/, 'Please enter a city name, without numbers (In english)')
+            .matches(/^[A-Za-z\s]+$/, 'Please enter a city name, without numbers (In english)')
             .typeError('Please enter a city name, without numbers')
             .required('')
             .max(58, 'City must be at most 58 characters')
