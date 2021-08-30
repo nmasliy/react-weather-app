@@ -52,7 +52,7 @@ const initialState = {
                     circle: '#FFFFFF',
                 },
                 cities: {
-                    background: 'rgba(27, 26, 26, 0.95)',
+                    background: 'rgba(27, 26, 26, 0.95)'
                 },
                 input: {
                     color: '#363434',
