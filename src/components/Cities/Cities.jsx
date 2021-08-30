@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import CitiesForm from './CitiesForm/CitiesForm';
+import CitiesForm from "./CitiesForm/CitiesForm";
 import CitiesItem from "./CitiesItem/CitiesItem";
 import {CSSTransition, TransitionGroup} from "react-transition-group";
 
@@ -21,14 +21,14 @@ const CitiesWrapper = styled.div`
     }
     .City-enter-active {
       opacity: 1;
-      transition: all 400ms;
+      transition: opacity 500ms;
     }
     .City-exit {
       opacity: 1;
     }
     .City-exit-active {
       opacity: 0;
-      transition: all 400ms;
+      transition: opacity 500ms;
     }
 
   @media(max-width: 840px) {
