@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import CitiesForm from './CitiesForm/CitiesForm';
+import CitiesForm from "./CitiesForm/CitiesForm";
 import CitiesItem from "./CitiesItem/CitiesItem";
 import {CSSTransition, TransitionGroup} from "react-transition-group";
 

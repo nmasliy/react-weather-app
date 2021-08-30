@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const InputWrapper = styled.input`
     background-color: ${props => props.itemBackground || '#FFFFFF'};

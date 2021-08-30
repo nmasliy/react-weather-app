@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import preloader from '../../assets/images/preloader.svg';
+import styled from "styled-components";
+import preloader from "../../assets/images/preloader.svg";
 
 const PreloaderWrapper = styled.div`
     position: fixed;
